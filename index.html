@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리센느 스케줄 / 일정표</title>
+  <style>
+    /* ==========================================================================
+       1. RESCENE Signature Lavender-Violet Design System (Zero External CDN)
+       ========================================================================== */
+    :root {
+      --bg-page: #F6F2FC;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #FAF7FE;
+      --violet-main: #6D44B8;
+      --violet-deep: #532E96;
+      --violet-soft: #EDE5FA;
+      --violet-border: #E4D8F5;
+      --violet-border-light: #F0E8FA;
+      --text-main: #1F192E;
+      --text-muted: #5E5475;
+      --text-light: #8C82A3;
+
+      /* Harmonious 8-Category Badge Palette */
+      --cat-award-fg: #B8860B;
+      --cat-award-bg: #FFF8E1;
+      --cat-award-bd: #F5E1A4;
+
+      --cat-concert-fg: #D6336C;
+      --cat-concert-bg: #FFF0F5;
+      --cat-concert-bd: #FCC2D7;
+
+      --cat-media-fg: #3B5BDB;
+      --cat-media-bg: #EDF2FF;
+      --cat-media-bd: #BAC8FF;
+
+      --cat-event-fg: #7048E8;
+      --cat-event-bg: #F3F0FF;
+      --cat-event-bd: #D0BFFF;
+
+      --cat-cafe-fg: #AE3EC9;
+      --cat-cafe-bg: #F8F0FC;
+      --cat-cafe-bd: #EEBEFA;
+
+      --cat-anniv-fg: #E64980;
+      --cat-anniv-bg: #FFF0F6;
+      --cat-anniv-bd: #FFDEEB;
+
+      --cat-vote-fg: #0CA678;
+      --cat-vote-bg: #E6FCF5;
+      --cat-vote-bd: #96F2D7;
+
+      --cat-fanmade-fg: #D9480F;
+      --cat-fanmade-bg: #FFF4E6;
+      --cat-fanmade-bd: #FFD8A8;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 4px 16px rgba(109, 68, 184, 0.07);
+      --shadow-hover: 0 8px 24px rgba(109, 68, 184, 0.12);
+      --shadow-modal: 0 16px 40px rgba(31, 25, 46, 0.22);
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      word-break: keep-all;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* ==========================================================================
+       2. Main Container
+       ========================================================================== */
+    .container {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* ==========================================================================
+       3. Signature Violet Gradient Hero & D-Day Dashboard
+       ========================================================================== */
+    .hero-banner {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #5F38A8 0%, #8356CE 55%, #A77CE6 100%);
+      padding: 28px 26px 24px;
+      color: #FFFFFF;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(95, 56, 168, 0.22);
+    }
+
+    /* Subtle Bokeh Light Orbs (Clean & Refined, No Messy Watermarks) */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 70%);
+    }
+
+    .hero-orb-1 {
+      width: 240px;
+      height: 240px;
+      top: -90px;
+      right: -40px;
+    }
+
+    .hero-orb-2 {
+      width: 170px;
+      height: 170px;
+      bottom: -70px;
+      left: 18%;
+      opacity: 0.7;
+    }
+
+    .hero-orb-3 {
+      width: 110px;
+      height: 110px;
+      top: 24px;
+      right: 26%;
+      opacity: 0.45;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-top {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(6px);
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.7px;
+      line-height: 1.25;
+      color: #FFFFFF;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.86);
+      font-weight: 500;
+    }
+
+    /* D-Day 3-Card Grid inside Hero */
+    .dday-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .dday-card {
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius-md);
+      padding: 14px 15px;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(45, 22, 84, 0.14);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .dday-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45, 22, 84, 0.2);
+    }
+
+    .dday-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .dday-pill {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 2px 9px;
+      border-radius: 999px;
+      letter-spacing: -0.1px;
+    }
+
+    .dday-pill.anniv { background-color: var(--cat-anniv-bg); color: var(--cat-anniv-fg); }
+    .dday-pill.award { background-color: var(--cat-award-bg); color: var(--cat-award-fg); }
+    .dday-pill.violet { background-color: var(--violet-soft); color: var(--violet-main); }
+
+    .dday-date {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .dday-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.3px;
+      line-height: 1.35;
+    }
+
+    .dday-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       4. Collapsible Ongoing Bar
+       ========================================================================== */
+    .ongoing-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .ongoing-toggle {
+      width: 100%;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background-color: var(--bg-card);
+      transition: background-color 0.14s ease;
+    }
+
+    .ongoing-toggle:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .ongoing-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--violet-main);
+      box-shadow: 0 0 0 4px rgba(109, 68, 184, 0.18);
+    }
+
+    .ongoing-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .ongoing-badge {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background-color: var(--violet-soft);
+      color: var(--violet-main);
+    }
+
+    .ongoing-chevron {
+      color: var(--violet-main);
+      transition: transform 0.2s ease;
+    }
+
+    .ongoing-card.collapsed .ongoing-chevron {
+      transform: rotate(-180deg);
+    }
+
+    .ongoing-body {
+      border-top: 1px solid var(--violet-border-light);
+      padding: 12px 18px 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .ongoing-card.collapsed .ongoing-body {
+      display: none;
+    }
+
+    .ongoing-item {
+      padding: 11px 13px;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--violet-border-light);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ongoing-item-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .ongoing-item-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       5. Sticky Filter Toolbar (Touch & Horizontal Scroll Optimized)
+       ========================================================================== */
+    .filter-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(246, 242, 252, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 6px 0 4px;
+      margin: -4px 0 0;
+    }
+
+    .filter-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .scroll-strip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      max-width: 100%;
+    }
+
+    .scroll-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .month-tab {
+      flex-shrink: 0;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.14s ease;
+    }
+
+    .month-tab:hover {
+      background-color: var(--violet-soft);
+      color: var(--violet-deep);
+    }
+
+    .month-tab.active {
+      background-color: var(--violet-main);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(109, 68, 184, 0.28);
+    }
+
+    .filter-right-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Prominent Purple '생카 숨기기' Toggle Switch */
+    .cafe-toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 11px 5px 10px;
+      border-radius: 999px;
+      background-color: var(--violet-soft);
+      border: 1px solid var(--violet-border);
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--violet-deep);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.16s ease, border-color 0.16s ease;
+    }
+
+    .cafe-toggle-pill.is-on {
+      background-color: var(--violet-main);
+      border-color: var(--violet-main);
+      color: #FFFFFF;
+    }
+
+    .switch {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
+      background-color: #CBB9EA;
+      border-radius: 999px;
+      transition: background-color 0.18s ease;
+    }
+
+    .switch-track::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(31, 25, 46, 0.22);
+      transition: transform 0.18s ease;
+    }
+
+    .switch input:checked + .switch-track {
+      background-color: #3E1F78;
+    }
+
+    .switch input:checked + .switch-track::before {
+      transform: translateX(16px);
+    }
+
+    /* Search Input */
+    .search-box {
+      position: relative;
+      width: 215px;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 7px 11px 7px 34px;
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-subtle);
+      font-size: 12.5px;
+      outline: none;
+      transition: border-color 0.14s ease, background-color 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--violet-main);
+      background-color: var(--bg-card);
+      box-shadow: 0 0 0 3px rgba(109, 68, 184, 0.12);
+    }
+
+    .filter-row-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--violet-border-light);
+    }
+
+    .cat-chip {
+      flex-shrink: 0;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--violet-border);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      transition: all 0.14s ease;
+    }
+
+    .cat-chip:hover {
+      border-color: var(--violet-main);
+      color: var(--violet-main);
+      background-color: var(--bg-subtle);
+    }
+
+    .cat-chip.active {
+      background-color: var(--violet-deep);
+      border-color: var(--violet-deep);
+      color: #FFFFFF;
+    }
+
+    .result-count {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .result-count strong {
+      color: var(--violet-main);
+    }
+
+    /* ==========================================================================
+       6. Vertical Timeline & Clean Schedule Cards
+       ========================================================================== */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .month-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .month-heading-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 2px;
+    }
+
+    .month-heading-bar h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--violet-deep);
+      letter-spacing: -0.4px;
+    }
+
+    .month-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--violet-border) 0%, rgba(228, 216, 245, 0.2) 100%);
+    }
+
+    .month-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--violet-main);
+      background-color: var(--violet-soft);
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    /* Vertical Timeline Rail */
+    .date-rail {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-left: 22px;
+    }
+
+    .date-rail::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 14px;
+      bottom: 14px;
+      width: 2px;
+      background: linear-gradient(180deg, #C7B0EC 0%, #E4D8F5 100%);
+      border-radius: 2px;
+    }
+
+    .date-group {
+      position: relative;
+    }
+
+    .date-node {
+      position: absolute;
+      left: -21px;
+      top: 15px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      border: 3px solid var(--violet-main);
+      box-shadow: 0 0 0 3px var(--bg-page);
+      z-index: 1;
+    }
+
+    .date-group.is-today .date-node {
+      background-color: var(--violet-main);
+      box-shadow: 0 0 0 4px rgba(109, 68, 184, 0.22);
+    }
+
+    .date-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .date-card-head {
+      padding: 10px 16px;
+      background-color: var(--bg-subtle);
+      border-bottom: 1px solid var(--violet-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .date-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .dow-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 5px;
+      background-color: var(--violet-soft);
+      color: var(--violet-deep);
+    }
+
+    .dow-tag.sat { background-color: #EDF2FF; color: #3B5BDB; }
+    .dow-tag.sun { background-color: #FFF0F5; color: #D6336C; }
+
+    .today-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background-color: var(--violet-main);
+      color: #FFFFFF;
+      letter-spacing: 0.3px;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 56px 84px 1fr auto auto;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--violet-border-light);
+      transition: background-color 0.14s ease;
+    }
+
+    .event-row:last-child {
+      border-bottom: none;
+    }
+
+    .event-row:hover {
+      background-color: #FCF9FF;
+    }
+
+    /* Special Highlights (기념일 / AAA 시상식 / 콘서트·예매) */
+    .event-row.is-highlight {
+      border-left: 4px solid var(--violet-main);
+      padding-left: 12px;
+    }
+
+    .event-row.is-highlight.tone-anniv {
+      background: linear-gradient(90deg, #FFF5F9 0%, #FFFFFF 65%);
+      border-left-color: var(--cat-anniv-fg);
+    }
+
+    .event-row.is-highlight.tone-award {
+      background: linear-gradient(90deg, #FFFBF0 0%, #FFFFFF 65%);
+      border-left-color: var(--cat-award-fg);
+    }
+
+    .event-row.is-highlight.tone-concert {
+      background: linear-gradient(90deg, #FFF4F8 0%, #FFFFFF 65%);
+      border-left-color: var(--cat-concert-fg);
+    }
+
+    .ev-time {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--violet-deep);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .ev-time.dash {
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+
+    .badge-award   { background-color: var(--cat-award-bg);   color: var(--cat-award-fg);   border: 1px solid var(--cat-award-bd); }
+    .badge-concert { background-color: var(--cat-concert-bg); color: var(--cat-concert-fg); border: 1px solid var(--cat-concert-bd); }
+    .badge-media   { background-color: var(--cat-media-bg);   color: var(--cat-media-fg);   border: 1px solid var(--cat-media-bd); }
+    .badge-event   { background-color: var(--cat-event-bg);   color: var(--cat-event-fg);   border: 1px solid var(--cat-event-bd); }
+    .badge-cafe    { background-color: var(--cat-cafe-bg);    color: var(--cat-cafe-fg);    border: 1px solid var(--cat-cafe-bd); }
+    .badge-anniv   { background-color: var(--cat-anniv-bg);   color: var(--cat-anniv-fg);   border: 1px solid var(--cat-anniv-bd); }
+    .badge-vote    { background-color: var(--cat-vote-bg);    color: var(--cat-vote-fg);    border: 1px solid var(--cat-vote-bd); }
+    .badge-fanmade { background-color: var(--cat-fanmade-bg); color: var(--cat-fanmade-fg); border: 1px solid var(--cat-fanmade-bd); }
+
+    .ev-body {
+      min-width: 0;
+    }
+
+    .ev-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.25px;
+      line-height: 1.4;
+    }
+
+    .ev-place {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .ev-member {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background-color: var(--bg-page);
+      border: 1px solid var(--violet-border);
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .btn-ics {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--violet-border);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.14s ease;
+    }
+
+    .btn-ics:hover {
+      border-color: var(--violet-main);
+      color: var(--violet-main);
+      background-color: var(--violet-soft);
+    }
+
+    .empty-state {
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-md);
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      box-shadow: var(--shadow-card);
+    }
+
+    .empty-state p {
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    /* ==========================================================================
+       7. Bottom Utility Bar (Strictly Below Schedule Timeline)
+       ========================================================================== */
+    .bottom-utility {
+      margin-top: 6px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .bottom-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .update-stamp {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .update-stamp svg {
+      color: var(--violet-main);
+    }
+
+    .update-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .bottom-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--violet-border);
+      background-color: var(--bg-card);
+      color: var(--violet-deep);
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: all 0.14s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--violet-main);
+      background-color: var(--violet-soft);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      background-color: var(--violet-main);
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 700;
+      box-shadow: 0 3px 10px rgba(109, 68, 184, 0.24);
+      transition: background-color 0.14s ease, transform 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--violet-deep);
+    }
+
+    /* ==========================================================================
+       8. Report Modal & Toast Notification
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(31, 25, 46, 0.52);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-modal);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      background-color: var(--bg-subtle);
+      border-bottom: 1px solid var(--violet-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--violet-deep);
+    }
+
+    .btn-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+    }
+
+    .btn-close:hover {
+      background-color: var(--violet-soft);
+      color: var(--violet-deep);
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      padding: 9px 11px;
+      border: 1px solid var(--violet-border);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-subtle);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--violet-main);
+      background-color: var(--bg-card);
+      box-shadow: 0 0 0 3px rgba(109, 68, 184, 0.12);
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      background-color: var(--bg-subtle);
+      border-top: 1px solid var(--violet-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background-color: #261B3B;
+      color: #FFFFFF;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-modal);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 200;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ==========================================================================
+       9. Mobile Responsive Optimization (<= 700px)
+       ========================================================================== */
+    @media (max-width: 700px) {
+      .container {
+        padding: 14px 12px 48px;
+        gap: 14px;
+      }
+
+      .hero-banner {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-title {
+        font-size: 22px;
+      }
+
+      .dday-grid {
+        grid-template-columns: 1fr;
+        gap: 9px;
+      }
+
+      .ongoing-body {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-card {
+        padding: 12px 13px;
+      }
+
+      .filter-right-controls {
+        width: 100%;
+      }
+
+      .search-box {
+        flex: 1;
+        min-width: 160px;
+      }
+
+      .date-rail {
+        padding-left: 16px;
+      }
+
+      .date-rail::before {
+        left: 4px;
+      }
+
+      .date-node {
+        left: -17px;
+        width: 10px;
+        height: 10px;
+      }
+
+      .event-row {
+        grid-template-columns: 1fr auto;
+        gap: 6px 10px;
+        padding: 12px 14px;
+      }
+
+      .ev-time {
+        grid-column: 1 / 2;
+        font-size: 12px;
+      }
+
+      .ev-badge-wrap {
+        grid-column: 2 / 3;
+        justify-self: end;
+      }
+
+      .ev-body {
+        grid-column: 1 / 3;
+      }
+
+      .ev-member-wrap {
+        grid-column: 1 / 2;
+        justify-self: start;
+      }
+
+      .ev-ics-wrap {
+        grid-column: 2 / 3;
+        justify-self: end;
+      }
+
+      .bottom-utility {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+      }
+
+      .bottom-actions {
+        width: 100%;
+      }
+
+      .bottom-actions button {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <!-- ====================================================================
+         1. Signature Lavender-Violet Hero & D-Day Dashboard
+         ==================================================================== -->
+    <section class="hero-banner" aria-label="리센느 스케줄 요약">
+      <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <div class="hero-top">
+          <span class="hero-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l2.9 6.6L22 9.3l-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.3l7.1-.7L12 2z"></path>
+            </svg>
+            Happy Zena Day · 11.27
+          </span>
+          <h1 class="hero-title">리센느 스케줄 / 일정표</h1>
+          <p class="hero-sub">모든 일정은 한국 시간(KST) 기준이며 사정에 따라 변경될 수 있습니다.</p>
+        </div>
+
+        <div class="dday-grid">
+          <article class="dday-card">
+            <div class="dday-head">
+              <span class="dday-pill anniv">D-1</span>
+              <span class="dday-date">11/27 (금)</span>
+            </div>
+            <div class="dday-name">🎂 김제나 생일</div>
+            <div class="dday-desc">Happy Zena Day</div>
+          </article>
+
+          <article class="dday-card">
+            <div class="dday-head">
+              <span class="dday-pill award">D-9</span>
+              <span class="dday-date">12/05 (토)</span>
+            </div>
+            <div class="dday-name">AAA 아시아 아티스트 어워즈</div>
+            <div class="dday-desc">대만 가오슝 내셔널 스타디움</div>
+          </article>
+
+          <article class="dday-card">
+            <div class="dday-head">
+              <span class="dday-pill violet">D-24</span>
+              <span class="dday-date">12/20 (일)</span>
+            </div>
+            <div class="dday-name">🎉 리센느 데뷔 1000일</div>
+            <div class="dday-desc">RESCENE 1000 DAYS</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         2. Collapsible Ongoing Bar
+         ==================================================================== -->
+    <section class="ongoing-card" id="ongoingCard" aria-label="현재 진행 중인 일정">
+      <button type="button" class="ongoing-toggle" id="ongoingToggleBtn" aria-expanded="true">
+        <span class="ongoing-left">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="ongoing-title">현재 진행 중 (Ongoing)</span>
+          <span class="ongoing-badge">3</span>
+        </span>
+        <svg class="ongoing-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+
+      <div class="ongoing-body">
+        <div class="ongoing-item">
+          <div><span class="badge badge-vote">투표</span></div>
+          <div class="ongoing-item-title">디 어워즈 2027 인기상 투표</div>
+          <div class="ongoing-item-meta">~12/22 · 아이돌픽 앱</div>
+        </div>
+
+        <div class="ongoing-item">
+          <div><span class="badge badge-cafe">생카</span></div>
+          <div class="ongoing-item-title">제나·미나미 생일 카페 투어 진행 중</div>
+          <div class="ongoing-item-meta">~11/29 · 서울 · 부산</div>
+        </div>
+
+        <div class="ongoing-item">
+          <div><span class="badge badge-event">이벤트</span></div>
+          <div class="ongoing-item-title">위드뮤 2027 시즌그리팅 &amp; 영상통화 팬사인회 응모</div>
+          <div class="ongoing-item-meta">위드뮤 온라인</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. Sticky Filter Toolbar
+         ==================================================================== -->
+    <section class="filter-sticky" aria-label="일정 필터 및 검색">
+      <div class="filter-card">
+        <div class="filter-row-top">
+          <div class="scroll-strip" id="monthTabs" role="tablist" aria-label="월별 필터">
+            <button type="button" class="month-tab active" data-month="all">전체</button>
+            <button type="button" class="month-tab" data-month="2026-11">11월</button>
+            <button type="button" class="month-tab" data-month="2026-12">12월</button>
+            <button type="button" class="month-tab" data-month="2027-01">2027.01</button>
+            <button type="button" class="month-tab" data-month="2027-02">2027.02</button>
+            <button type="button" class="month-tab" data-month="2027-03">2027.03</button>
+          </div>
+
+          <div class="filter-right-controls">
+            <label class="cafe-toggle-pill" id="cafeTogglePill">
+              <span class="switch">
+                <input type="checkbox" id="hideCafeToggle">
+                <span class="switch-track"></span>
+              </span>
+              생카 숨기기
+            </label>
+
+            <div class="search-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="search" id="searchInput" class="search-input" placeholder="일정명, 장소, 멤버 검색">
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-row-bottom">
+          <div class="scroll-strip" id="catChips" role="tablist" aria-label="카테고리 필터">
+            <button type="button" class="cat-chip active" data-cat="all">전체</button>
+            <button type="button" class="cat-chip" data-cat="award">시상식</button>
+            <button type="button" class="cat-chip" data-cat="concert">콘서트/예매</button>
+            <button type="button" class="cat-chip" data-cat="media">방송/공연</button>
+            <button type="button" class="cat-chip" data-cat="event">이벤트</button>
+            <button type="button" class="cat-chip" data-cat="vote">투표</button>
+            <button type="button" class="cat-chip" data-cat="cafe">생카</button>
+            <button type="button" class="cat-chip" data-cat="anniv">기념일</button>
+          </div>
+          <span class="result-count" id="resultCount">총 <strong>0</strong>건</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. Vertical Timeline Schedule
+         ==================================================================== -->
+    <section class="timeline" id="timelineContainer" aria-live="polite"></section>
+
+    <!-- ====================================================================
+         5. Bottom Utility Bar (Strictly Below Schedule Timeline)
+         ==================================================================== -->
+    <footer class="bottom-utility" aria-label="업데이트 정보 및 일정 관리">
+      <div class="bottom-meta">
+        <div class="update-stamp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          최근 업데이트: 2026.11.26 기준
+        </div>
+        <div class="update-sub">추가·변경된 공식 일정이 있다면 제보하기로 바로 반영해 보세요.</div>
+      </div>
+
+      <div class="bottom-actions">
+        <button type="button" class="btn-outline" id="copyNoticeBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          공지용 텍스트 복사
+        </button>
+
+        <button type="button" class="btn-primary" id="openReportBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          일정 제보하기
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ======================================================================
+       Report Schedule Modal
+       ====================================================================== -->
+  <div class="modal-backdrop" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="reportModalTitle">일정 제보하기</h3>
+        <button type="button" class="btn-close" id="closeReportBtn" aria-label="닫기">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="reportForm">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="repDate">날짜 *</label>
+              <input type="date" id="repDate" class="form-control" value="2026-12-01" required>
+            </div>
+            <div class="form-field">
+              <label for="repTime">시간 (예: 18:00, 종일, -)</label>
+              <input type="text" id="repTime" class="form-control" placeholder="18:00" value="18:00">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label for="repCat">카테고리 *</label>
+              <select id="repCat" class="form-control" required>
+                <option value="시상식">시상식</option>
+                <option value="콘서트">콘서트</option>
+                <option value="예매">예매</option>
+                <option value="방송" selected>방송</option>
+                <option value="공연">공연</option>
+                <option value="이벤트">이벤트</option>
+                <option value="투표">투표</option>
+                <option value="생카">생카</option>
+                <option value="팬메이드">팬메이드</option>
+                <option value="기념일">기념일</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="repMember">참여 멤버 *</label>
+              <input type="text" id="repMember" class="form-control" placeholder="전 멤버 / 제나 등" value="전 멤버" required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="repTitle">일정명 *</label>
+            <input type="text" id="repTitle" class="form-control" placeholder="예: SBS 인기가요 본방송" required>
+          </div>
+
+          <div class="form-field">
+            <label for="repPlace">장소 / 채널</label>
+            <input type="text" id="repPlace" class="form-control" placeholder="예: SBS / 유튜브 / 서울 마포">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" id="copyReportCommentBtn">댓글 제보용 복사</button>
+          <button type="submit" class="btn-primary">일정표에 추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY = 'rescene_violet_schedule_v1';
+      const TODAY_STR = '2026-11-26';
+
+      /* Category Style & Filter Mapping */
+      const CAT_CONFIG = {
+        '시상식':   { filter: 'award',   badge: 'badge-award',   tone: 'tone-award' },
+        '콘서트':   { filter: 'concert', badge: 'badge-concert', tone: 'tone-concert' },
+        '예매':     { filter: 'concert', badge: 'badge-concert', tone: 'tone-concert' },
+        '방송':     { filter: 'media',   badge: 'badge-media',   tone: 'tone-media' },
+        '공연':     { filter: 'media',   badge: 'badge-media',   tone: 'tone-media' },
+        '이벤트':   { filter: 'event',   badge: 'badge-event',   tone: 'tone-event' },
+        '팬메이드': { filter: 'event',   badge: 'badge-fanmade', tone: 'tone-event' },
+        '투표':     { filter: 'vote',    badge: 'badge-vote',    tone: 'tone-vote' },
+        '생카':     { filter: 'cafe',    badge: 'badge-cafe',    tone: 'tone-cafe' },
+        '기념일':   { filter: 'anniv',   badge: 'badge-anniv',   tone: 'tone-anniv' }
+      };
+
+      /* Complete RESCENE Schedule Data */
+      const BASE_SCHEDULES = [
+        // 2026년 11월
+        { date: '2026-11-26', time: '11:00', category: '생카', title: 'Princess Diary (~11/28)', place: '서울 강남 · 카페 더헤리티지', member: '제나', highlight: false },
+        { date: '2026-11-26', time: '12:00', category: '생카', title: '우리들의 겨울별 (~11/29)', place: '서울 마포 · 카페', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-26', time: '-',     category: '생카', title: '몽글몽글하고 사랑스러운 생일소품', place: '서울 마포 · 카페', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-26', time: '-',     category: '생카', title: 'Afterhour', place: '서울 마포구', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-26', time: '18:00', category: '방송', title: 'MBC 방송 / 라디오 일정', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-11-26', time: '19:00', category: '방송', title: '리센느 자체 콘텐츠', place: '', member: '미나미, 제나', highlight: false },
+
+        { date: '2026-11-27', time: '종일',  category: '기념일', title: '🎂 김제나 생일', place: 'Happy Zena Day', member: '제나', highlight: true },
+        { date: '2026-11-27', time: '11:00', category: '생카', title: 'Blooming in your Season', place: '서울 마포 · 카페', member: '제나', highlight: false },
+        { date: '2026-11-27', time: '11:00', category: '생카', title: '제나데이 생일카페 (~11/29)', place: '서울 마포', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-27', time: '11:30', category: '생카', title: '제나의 꿈속 일기 (~11/29)', place: '서울 마포', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-27', time: '12:00', category: '생카', title: '해피 제나 위크 (~11/29)', place: '서울 마포', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-27', time: '12:00', category: '생카', title: '제나·미나미 생일카페 (~11/29)', place: '부산 부산진구', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-27', time: '18:00', category: '이벤트', title: '리센느 1:1 영상통화 팬사인회', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-11-27', time: '20:00', category: '이벤트', title: '위드뮤 대면 팬사인회', place: '', member: '전 멤버', highlight: false },
+
+        { date: '2026-11-28', time: '10:00', category: '방송', title: 'MBC 방송 일정', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-11-28', time: '12:00', category: '생카', title: '제나·미나미 생일카페 (~11/29)', place: '서울 마포', member: '미나미, 제나', highlight: false },
+
+        { date: '2026-11-29', time: '종일',  category: '기념일', title: '🎂 미나미 생일', place: 'Happy Minami Day', member: '미나미', highlight: true },
+        { date: '2026-11-29', time: '14:00', category: '이벤트', title: '메이크스타 대면 팬사인회', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-11-29', time: '-',     category: '이벤트', title: '메이크스타 영상통화 팬사인회', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-11-29', time: '15:00', category: '생카', title: '미나미·제나 생일카페', place: '서울 마포', member: '미나미, 제나', highlight: false },
+        { date: '2026-11-29', time: '16:15', category: '공연', title: '가요/공연 일정', place: '', member: '전 멤버', highlight: false },
+
+        // 2026년 12월
+        { date: '2026-12-05', time: '16:00', category: '시상식', title: 'AAA 아시아 아티스트 어워즈 레드카펫', place: '대만 가오슝 내셔널 스타디움', member: '전 멤버', highlight: true },
+        { date: '2026-12-05', time: '18:00', category: '시상식', title: 'AAA 아시아 아티스트 어워즈', place: '대만 가오슝 내셔널 스타디움', member: '전 멤버', highlight: true },
+        { date: '2026-12-06', time: '18:00', category: '시상식', title: 'AAA 아시아 아티스트 어워즈', place: '대만 가오슝 내셔널 스타디움', member: '전 멤버', highlight: true },
+        { date: '2026-12-08', time: '20:00', category: '이벤트', title: '위드뮤 영상통화 팬사인회', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-12-09', time: '11:00', category: '투표', title: '디 어워즈 2027 인기상 최종 투표 (~12/22)', place: '아이돌픽 앱', member: '전 멤버', highlight: false },
+        { date: '2026-12-10', time: '20:00', category: '예매', title: '2027 RESCENE CONCERT IN SEOUL <NOTES : BLOOMING> 팬클럽 선예매', place: '쿠팡플레이', member: '리마인', highlight: true },
+        { date: '2026-12-10', time: '20:00', category: '이벤트', title: '위드뮤 영상통화 팬사인회', place: '', member: '전 멤버', highlight: false },
+        { date: '2026-12-11', time: '20:00', category: '예매', title: '2027 RESCENE CONCERT IN SEOUL <NOTES : BLOOMING> 일반 예매', place: '쿠팡플레이', member: '리마인', highlight: true },
+        { date: '2026-12-13', time: '17:00', category: '방송', title: '2026 MUSIC BANK GLOBAL FESTIVAL IN JAPAN', place: '일본 MUFG 스타디움(국립경기장)', member: '전 멤버', highlight: false },
+        { date: '2026-12-18', time: '-',     category: '팬메이드', title: '리센느 데뷔 1000일 기념 사진전 <滿香 : 만향> (~12/20)', place: '남부터미널역 4-2번 출구 드임아트', member: '전 멤버', highlight: false },
+        { date: '2026-12-20', time: '종일',  category: '기념일', title: '🎉 리센느 데뷔 1000일', place: 'RESCENE 1000 DAYS', member: '전 멤버', highlight: true },
+        { date: '2026-12-24', time: '16:30', category: '공연', title: 'SBS 가요대전', place: '킨텍스', member: '전 멤버', highlight: false },
+        { date: '2026-12-27', time: '13:00', category: '이벤트', title: "위드뮤 2027 SEASON'S GREETINGS [PAGES OF YOUTH] 팬사인회", place: '', member: '전 멤버', highlight: false },
+
+        // 2027년 1월
+        { date: '2027-01-16', time: '02:00', category: '시상식', title: 'D AWARDS 2027 in PARIS', place: 'PARIS PLENITUDE ARENA', member: '전 멤버', highlight: true },
+        { date: '2027-01-17', time: '01:00', category: '시상식', title: 'D AWARDS 2027 in PARIS', place: 'PARIS PLENITUDE ARENA', member: '전 멤버', highlight: true },
+
+        // 2027년 2월
+        { date: '2027-02-19', time: '-', category: '콘서트', title: '2027 RESCENE CONCERT IN SEOUL <NOTES : BLOOMING>', place: '서울 올림픽공원 올림픽홀', member: '전 멤버', highlight: true },
+        { date: '2027-02-20', time: '-', category: '콘서트', title: '2027 RESCENE CONCERT IN SEOUL <NOTES : BLOOMING>', place: '서울 올림픽공원 올림픽홀', member: '전 멤버', highlight: true },
+        { date: '2027-02-21', time: '-', category: '콘서트', title: '2027 RESCENE CONCERT IN SEOUL <NOTES : BLOOMING>', place: '서울 올림픽공원 올림픽홀', member: '전 멤버', highlight: true },
+
+        // 2027년 3월
+        { date: '2027-03-26', time: '종일', category: '기념일', title: '🎉 리센느 데뷔 3주년', place: 'RESCENE 3RD ANNIVERSARY', member: '전 멤버', highlight: true }
+      ];
+
+      /* App State */
+      const state = {
+        month: 'all',
+        cat: 'all',
+        hideCafe: false,
+        query: '',
+        customSchedules: loadCustomSchedules()
+      };
+
+      /* DOM Elements */
+      const timelineContainer = document.getElementById('timelineContainer');
+      const resultCount = document.getElementById('resultCount');
+      const monthTabs = document.getElementById('monthTabs');
+      const catChips = document.getElementById('catChips');
+      const hideCafeToggle = document.getElementById('hideCafeToggle');
+      const cafeTogglePill = document.getElementById('cafeTogglePill');
+      const searchInput = document.getElementById('searchInput');
+      const ongoingCard = document.getElementById('ongoingCard');
+      const ongoingToggleBtn = document.getElementById('ongoingToggleBtn');
+      const copyNoticeBtn = document.getElementById('copyNoticeBtn');
+      const reportModal = document.getElementById('reportModal');
+      const openReportBtn = document.getElementById('openReportBtn');
+      const closeReportBtn = document.getElementById('closeReportBtn');
+      const reportForm = document.getElementById('reportForm');
+      const copyReportCommentBtn = document.getElementById('copyReportCommentBtn');
+      const toastEl = document.getElementById('toast');
+
+      let toastTimer = null;
+
+      /* Storage Helpers */
+      function loadCustomSchedules() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      function saveCustomSchedules(list) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        } catch (err) {
+          // Ignore storage restrictions
+        }
+      }
+
+      /* Utility Helpers */
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastEl.classList.remove('show');
+        }, 2400);
+      }
+
+      function copyToClipboard(text, successMsg) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast(successMsg);
+        } catch (err) {
+          showToast('복사에 실패했습니다. 다시 시도해 주세요.');
+        }
+        document.body.removeChild(ta);
+      }
+
+      function getDowInfo(dateStr) {
+        const parts = dateStr.split('-').map(Number);
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        const labels = ['일', '월', '화', '수', '목', '금', '토'];
+        const idx = d.getDay();
+        const cls = idx === 6 ? 'sat' : (idx === 0 ? 'sun' : '');
+        return { label: labels[idx], cls: cls };
+      }
+
+      function formatMonthHeading(ym) {
+        const parts = ym.split('-');
+        return parts[0] + '년 ' + parseInt(parts[1], 10) + '월';
+      }
+
+      function formatDateShort(dateStr) {
+        const parts = dateStr.split('-');
+        return parseInt(parts[1], 10) + '/' + parseInt(parts[2], 10);
+      }
+
+      function timeSortValue(timeStr) {
+        if (!timeStr || timeStr === '종일') return -1;
+        if (timeStr === '-') return 9999;
+        const m = timeStr.match(/^(\d{1,2}):(\d{2})$/);
+        if (!m) return 9998;
+        return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+      }
+
+      function getFilteredSchedules() {
+        const allItems = BASE_SCHEDULES.concat(state.customSchedules).map(function (it, idx) {
+          return Object.assign({ _id: idx }, it);
+        });
+        const q = state.query.trim().toLowerCase();
+
+        const filtered = allItems.filter(function (item) {
+          const ym = item.date.slice(0, 7);
+          const cfg = CAT_CONFIG[item.category] || { filter: 'event' };
+
+          if (state.month !== 'all' && ym !== state.month) return false;
+          if (state.cat !== 'all' && cfg.filter !== state.cat) return false;
+          if (state.hideCafe && item.category === '생카') return false;
+
+          if (q) {
+            const hay = (item.title + ' ' + item.place + ' ' + item.member + ' ' + item.category).toLowerCase();
+            if (hay.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+
+        filtered.sort(function (a, b) {
+          if (a.date !== b.date) return a.date.localeCompare(b.date);
+          return timeSortValue(a.time) - timeSortValue(b.time);
+        });
+
+        return filtered;
+      }
+
+      /* ICS Calendar File Export */
+      function downloadICS(item) {
+        const dateClean = item.date.replace(/-/g, '');
+        let dtStart = '';
+        let dtEnd = '';
+        const match = (item.time || '').match(/^(\d{1,2}):(\d{2})$/);
+
+        if (match) {
+          const hh = String(match[1]).padStart(2, '0');
+          const mm = match[2];
+          const endHh = String((parseInt(hh, 10) + 1) % 24).padStart(2, '0');
+          dtStart = 'DTSTART;TZID=Asia/Seoul:' + dateClean + 'T' + hh + mm + '00';
+          dtEnd = 'DTEND;TZID=Asia/Seoul:' + dateClean + 'T' + endHh + mm + '00';
+        } else {
+          const p = item.date.split('-').map(Number);
+          const next = new Date(p[0], p[1] - 1, p[2] + 1);
+          const nextStr = next.getFullYear() +
+            String(next.getMonth() + 1).padStart(2, '0') +
+            String(next.getDate()).padStart(2, '0');
+          dtStart = 'DTSTART;VALUE=DATE:' + dateClean;
+          dtEnd = 'DTEND;VALUE=DATE:' + nextStr;
+        }
+
+        const uid = 'rescene-' + dateClean + '-' + Math.random().toString(36).slice(2, 8);
+        const lines = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//RESCENE//Schedule//KO',
+          'CALSCALE:GREGORIAN',
+          'BEGIN:VEVENT',
+          'UID:' + uid,
+          dtStart,
+          dtEnd,
+          'SUMMARY:[리센느/' + item.category + '] ' + item.title,
+          'LOCATION:' + (item.place || ''),
+          'DESCRIPTION:참여 멤버: ' + (item.member || '전 멤버'),
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ];
+
+        const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'RESCENE_' + dateClean + '.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('캘린더 파일(.ics)이 저장되었습니다.');
+      }
+
+      /* Render Vertical Timeline */
+      function render() {
+        const filtered = getFilteredSchedules();
+        resultCount.innerHTML = '총 <strong>' + filtered.length + '</strong>건';
+
+        if (filtered.length === 0) {
+          timelineContainer.innerHTML =
+            '<div class="empty-state">' +
+              '<strong>조건에 맞는 일정이 없습니다.</strong>' +
+              '<p>다른 월·카테고리를 선택하거나 검색어를 초기화해 보세요.</p>' +
+            '</div>';
+          return;
+        }
+
+        const monthMap = {};
+        filtered.forEach(function (item) {
+          const ym = item.date.slice(0, 7);
+          if (!monthMap[ym]) monthMap[ym] = {};
+          if (!monthMap[ym][item.date]) monthMap[ym][item.date] = [];
+          monthMap[ym][item.date].push(item);
+        });
+
+        const monthKeys = Object.keys(monthMap).sort();
+        let html = '';
+
+        monthKeys.forEach(function (ym) {
+          const dateKeys = Object.keys(monthMap[ym]).sort();
+          let mCount = 0;
+          dateKeys.forEach(function (dk) { mCount += monthMap[ym][dk].length; });
+
+          html += '<section class="month-section">';
+          html += '<div class="month-heading-bar">';
+          html += '<h2>' + formatMonthHeading(ym) + '</h2>';
+          html += '<div class="month-line"></div>';
+          html += '<span class="month-pill">' + mCount + '건</span>';
+          html += '</div>';
+
+          html += '<div class="date-rail">';
+          dateKeys.forEach(function (dateStr) {
+            const dow = getDowInfo(dateStr);
+            const isToday = dateStr === TODAY_STR;
+            const items = monthMap[ym][dateStr];
+
+            html += '<div class="date-group' + (isToday ? ' is-today' : '') + '">';
+            html += '<span class="date-node" aria-hidden="true"></span>';
+            html += '<div class="date-card">';
+            html += '<div class="date-card-head">';
+            html += '<div class="date-label-wrap">';
+            html += '<span>' + formatDateShort(dateStr) + '</span>';
+            html += '<span class="dow-tag ' + dow.cls + '">' + dow.label + '</span>';
+            if (isToday) html += '<span class="today-tag">TODAY</span>';
+            html += '</div>';
+            html += '</div>';
+
+            html += '<div class="event-list">';
+            items.forEach(function (ev) {
+              const cfg = CAT_CONFIG[ev.category] || { badge: 'badge-event', tone: '' };
+              const hiCls = ev.highlight ? (' is-highlight ' + cfg.tone) : '';
+              const timeCls = ev.time === '-' ? ' dash' : '';
+
+              html += '<div class="event-row' + hiCls + '">';
+              html += '<div class="ev-time' + timeCls + '">' + escapeHtml(ev.time) + '</div>';
+              html += '<div class="ev-badge-wrap"><span class="badge ' + cfg.badge + '">' + escapeHtml(ev.category) + '</span></div>';
+              html += '<div class="ev-body">';
+              html += '<div class="ev-title">' + escapeHtml(ev.title) + '</div>';
+              if (ev.place) {
+                html += '<div class="ev-place">' + escapeHtml(ev.place) + '</div>';
+              }
+              html += '</div>';
+              html += '<div class="ev-member-wrap"><span class="ev-member">' + escapeHtml(ev.member) + '</span></div>';
+              html += '<div class="ev-ics-wrap">';
+              html += '<button type="button" class="btn-ics" data-ics-id="' + ev._id + '" title="캘린더에 저장 (.ics)">';
+              html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+              html += '.ics</button>';
+              html += '</div>';
+              html += '</div>';
+            });
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+          });
+          html += '</div>';
+          html += '</section>';
+        });
+
+        timelineContainer.innerHTML = html;
+
+        // Bind .ics download events
+        timelineContainer.querySelectorAll('.btn-ics').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const id = parseInt(btn.getAttribute('data-ics-id'), 10);
+            const target = filtered.find(function (x) { return x._id === id; });
+            if (target) downloadICS(target);
+          });
+        });
+      }
+
+      /* Copy Notice Text Based on Current Filter */
+      copyNoticeBtn.addEventListener('click', function () {
+        const list = getFilteredSchedules();
+        if (list.length === 0) {
+          showToast('복사할 일정이 없습니다.');
+          return;
+        }
+
+        const lines = [
+          '💜 [리센느 스케줄 / 일정표]',
+          '────────────────────────',
+          '📌 주요 D-Day',
+          '· D-1 | 11/27(금) 김제나 생일',
+          '· D-9 | 12/05(토)~06(일) AAA 아시아 아티스트 어워즈',
+          '· D-24 | 12/20(일) 리센느 데뷔 1000일',
+          ''
+        ];
+
+        let prevMonth = '';
+        let prevDate = '';
+
+        list.forEach(function (item) {
+          const ym = item.date.slice(0, 7);
+          if (ym !== prevMonth) {
+            lines.push('■ ' + formatMonthHeading(ym));
+            prevMonth = ym;
+          }
+          if (item.date !== prevDate) {
+            const dow = getDowInfo(item.date);
+            lines.push('▸ ' + formatDateShort(item.date) + '(' + dow.label + ')');
+            prevDate = item.date;
+          }
+          const placeStr = item.place ? ' · ' + item.place : '';
+          lines.push('  - ' + item.time + ' [' + item.category + '] ' + item.title + placeStr + ' (' + item.member + ')');
+        });
+
+        lines.push('');
+        lines.push('※ 최근 업데이트: 2026.11.26 기준 / 모든 일정은 KST 기준이며 사정에 따라 변경될 수 있습니다.');
+
+        copyToClipboard(lines.join('\n'), '공지용 스케줄 텍스트가 클립보드에 복사되었습니다.');
+      });
+
+      /* Filter & Accordion Events */
+      ongoingToggleBtn.addEventListener('click', function () {
+        const collapsed = ongoingCard.classList.toggle('collapsed');
+        ongoingToggleBtn.setAttribute('aria-expanded', String(!collapsed));
+      });
+
+      monthTabs.addEventListener('click', function (e) {
+        const btn = e.target.closest('.month-tab');
+        if (!btn) return;
+        monthTabs.querySelectorAll('.month-tab').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.month = btn.getAttribute('data-month');
+        render();
+      });
+
+      catChips.addEventListener('click', function (e) {
+        const btn = e.target.closest('.cat-chip');
+        if (!btn) return;
+        catChips.querySelectorAll('.cat-chip').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.cat = btn.getAttribute('data-cat');
+        render();
+      });
+
+      hideCafeToggle.addEventListener('change', function () {
+        state.hideCafe = hideCafeToggle.checked;
+        cafeTogglePill.classList.toggle('is-on', state.hideCafe);
+        render();
+      });
+
+      searchInput.addEventListener('input', function () {
+        state.query = searchInput.value;
+        render();
+      });
+
+      /* Modal Controls */
+      function openModal() {
+        reportModal.classList.add('open');
+        document.getElementById('repTitle').focus();
+      }
+
+      function closeModal() {
+        reportModal.classList.remove('open');
+      }
+
+      openReportBtn.addEventListener('click', openModal);
+      closeReportBtn.addEventListener('click', closeModal);
+      reportModal.addEventListener('click', function (e) {
+        if (e.target === reportModal) closeModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && reportModal.classList.contains('open')) closeModal();
+      });
+
+      reportForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const dateVal = document.getElementById('repDate').value;
+        const timeVal = document.getElementById('repTime').value.trim() || '-';
+        const catVal = document.getElementById('repCat').value;
+        const titleVal = document.getElementById('repTitle').value.trim();
+        const placeVal = document.getElementById('repPlace').value.trim();
+        const memberVal = document.getElementById('repMember').value.trim() || '전 멤버';
+
+        if (!dateVal || !titleVal) {
+          showToast('날짜와 일정명을 입력해 주세요.');
+          return;
+        }
+
+        state.customSchedules.push({
+          date: dateVal,
+          time: timeVal,
+          category: catVal,
+          title: titleVal,
+          place: placeVal,
+          member: memberVal,
+          highlight: (catVal === '시상식' || catVal === '콘서트' || catVal === '예매' || catVal === '기념일')
+        });
+
+        saveCustomSchedules(state.customSchedules);
+        reportForm.reset();
+        document.getElementById('repDate').value = dateVal;
+        document.getElementById('repTime').value = '18:00';
+        document.getElementById('repMember').value = '전 멤버';
+        closeModal();
+        render();
+        showToast('새 일정이 일정표에 추가되었습니다.');
+      });
+
+      copyReportCommentBtn.addEventListener('click', function () {
+        const dateVal = document.getElementById('repDate').value || '날짜미정';
+        const timeVal = document.getElementById('repTime').value.trim() || '-';
+        const catVal = document.getElementById('repCat').value;
+        const titleVal = document.getElementById('repTitle').value.trim() || '(일정명 입력)';
+        const placeVal = document.getElementById('repPlace').value.trim() || '-';
+        const memberVal = document.getElementById('repMember').value.trim() || '전 멤버';
+
+        const text = '[일정 제보] ' + dateVal + ' ' + timeVal + ' | ' + catVal + ' | ' + titleVal + ' | ' + placeVal + ' | ' + memberVal;
+        copyToClipboard(text, '댓글 제보용 텍스트가 복사되었습니다.');
+      });
+
+      /* Initial Render */
+      render();
+    })();
+  </script>
+</body>
+</html>
